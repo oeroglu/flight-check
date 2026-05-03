@@ -1,0 +1,18 @@
+name: Flight Check Cron
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # her 6 saat
+  workflow_dispatch:         # manuel çalıştırma
+
+jobs:
+  call-function:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Call Supabase Edge Function
+        run: |
+          curl -s -X POST "${{ secrets.FUNCTION_URL }}" \
+          -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+          -H "Content-Type: application/json" \
+          -d "{}"
