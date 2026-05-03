@@ -2,54 +2,27 @@ backend:
   name: git-gateway
   branch: main
 
-# medya (şart değil ama default bırak)
 media_folder: "uploads"
 public_folder: "/uploads"
 
-# editör ayarları (opsiyonel ama iyi)
 locale: "tr"
-publish_mode: "simple"
+
+publish_mode: simple
 
 collections:
   - name: "routes"
     label: "Routes"
-    label_singular: "Route"
-
     files:
       - file: "routes/routes.json"
         label: "Flight Routes"
         name: "routes"
         format: "json"
-
         fields:
-          - label: "Routes"
-            name: "routes"
+          - name: "routes"
             widget: "list"
-
-            summary: "{{fields.origin}} → {{fields.destination}} ({{fields.date}})"
-
             fields:
-              - label: "Origin"
-                name: "origin"
-                widget: "string"
-
-              - label: "Destination"
-                name: "destination"
-                widget: "string"
-
-              - label: "Date"
-                name: "date"
-                widget: "datetime"
-                format: "YYYY-MM-DD"
-                time_format: false
-
-              - label: "Max Price"
-                name: "max_price"
-                widget: "number"
-                value_type: "int"
-                min: 0
-
-              - label: "Active"
-                name: "active"
-                widget: "boolean"
-                default: true
+              - { name: "origin", widget: "string" }
+              - { name: "destination", widget: "string" }
+              - { name: "date", widget: "datetime", format: "YYYY-MM-DD", time_format: false }
+              - { name: "max_price", widget: "number", value_type: "int", min: 0 }
+              - { name: "active", widget: "boolean", default: true }
