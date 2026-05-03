@@ -1,0 +1,20 @@
+name: Sync Routes to Supabase
+
+on:
+  push:
+    paths:
+      - "routes/routes.json"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Send to Supabase
+        run: |
+          curl -X POST https://YOUR_SUPABASE_FUNCTION \
+          -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+          -H "Content-Type: application/json" \
+          --data-binary @routes/routes.json
