@@ -9,6 +9,7 @@ export default function AuthCallback() {
 
   useEffect(() => {
     const run = async () => {
+      // 🔥 hem code hem hash destekli güvenli çözüm
       const { error } = await supabase.auth.exchangeCodeForSession(
         window.location.href
       )
