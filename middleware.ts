@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl
 
-  // 🔥 static files NEVER block
+  // static ignore
   if (
     pathname.startsWith('/_next') ||
     pathname.includes('.') ||
@@ -15,7 +15,6 @@ export function middleware(req: NextRequest) {
 
   const token = req.cookies.get('sb-access-token')
 
-  // public route
   if (!token && pathname !== '/login' && pathname !== '/auth/callback') {
     return NextResponse.redirect(new URL('/login', req.url))
   }
