@@ -8,7 +8,7 @@ export default function AuthCallback() {
   const router = useRouter()
 
   useEffect(() => {
-    const handleAuth = async () => {
+    const run = async () => {
       const { error } = await supabase.auth.exchangeCodeForSession(
         window.location.href
       )
@@ -22,7 +22,7 @@ export default function AuthCallback() {
       router.push('/')
     }
 
-    handleAuth()
+    run()
   }, [router])
 
   return <p>Logging in...</p>
