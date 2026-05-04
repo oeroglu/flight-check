@@ -9,16 +9,25 @@ export default function Login() {
   const [sent, setSent] = useState(false)
 
   const login = async () => {
-    if (loading || sent) return // 🔥 spam protection
+    if (loading || sent) return
 
-    if (!email) return alert('Email gir')
+    if (!email) {
+      alert('Email gir')
+      return
+    }
 
     setLoading(true)
+
+    // 🔥 BURASI KRİTİK
+    const origin =
+      typeof window !== 'undefined'
+        ? window.location.origin
+        : 'https://flight-check-omega.vercel.app'
 
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: `${origin}/auth/callback`,
       },
     })
 
