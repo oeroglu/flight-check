@@ -9,21 +9,33 @@ export default function AuthCallback() {
 
   useEffect(() => {
     const run = async () => {
-      // 🔥 session'ı al
-      const { data, error } = await supabase.auth.exchangeCodeForSession(
+      // 🔥 HASH'ten token al
+      const hash = window.location.hash
+
+      if (hash) {
+        const params = new URLSearchParams(hash.replace('#', ''))
+
+        const access_token = params.get('access_token')
+        const refresh_token = params.get('refresh_token')
+
+        if (access_token && refresh_token) {
+          await supabase.auth.setSession({
+            access_token,
+            refresh_token,
+          })
+
+          router.push('/')
+          return
+        }
+      }
+
+      // 🔥 fallback (code flow varsa)
+      const { error } = await supabase.auth.exchangeCodeForSession(
         window.location.href
       )
 
       if (error) {
         console.error(error.message)
-        router.push('/login')
-        return
-      }
-
-      // 🔥 session gerçekten oluştu mu kontrol et
-      const { data: sessionData } = await supabase.auth.getSession()
-
-      if (!sessionData.session) {
         router.push('/login')
         return
       }
